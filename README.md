@@ -20,14 +20,14 @@ to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev = sh
 
     arguments:
     -h, --help            show this help message and exit
-    -c CAN, --can CAN     use can device, e.g. can0
+    -c CAN, --can CAN     use can device, e.g. vcan0 (default)
     -dev DEV, --dev DEV   boiler type --dev vdens or --dev vcal or --dev vx3 or
                         --dev vair (ignored when -cnfg is set)
     -old, --old           -old for not universal list
     -dyn, --dyn           -dyn for dynamic values
     -a, --all             respond to all COB-IDs
     -addr ADDR, --addr ADDR
-                        ECU address
+                        ECU address (default 0x680)
     -cnfg CONFIG, --config CONFIG
                         json configuration file of Open3E
 
