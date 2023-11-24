@@ -10,7 +10,7 @@ Utilizing virtdyndata.py and command line option `-dyn` you can have randomly ch
 
 Use
 
-    python3 virtualE3.py -c vcan0 -cnfg dev
+    python3 virtualE3.py -cnfg dev
 
 to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev = shortcut for devices.json)
 
