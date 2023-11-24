@@ -16,7 +16,7 @@ to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev = sh
 
 # Usage
 
-    python3 virtualE3.py [-h] [-c CAN] [-dev DEV] [-a] [-addr ADDR] [-cnfg CONFIG]
+    python3 virtualE3.py [-h] [-c CAN] [-dev DEV] [-old] [-dyn] [-a] [-addr ADDR] [-cnfg CONFIG]
 
     arguments:
     -h, --help            show this help message and exit
