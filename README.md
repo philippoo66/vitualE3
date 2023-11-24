@@ -12,7 +12,7 @@ Use
 
     python3 virtualE3.py -cnfg dev
 
-to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev = shortcut for devices.json)
+to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev is programmed shortcut for devices.json)
 
 # Usage
 
