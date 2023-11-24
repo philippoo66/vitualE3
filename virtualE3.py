@@ -15,6 +15,9 @@
 """
 
 """
+version 1.0.2:
+    some bugs fixed
+
 version 1.0.1:
     args issue fixed
 
@@ -372,8 +375,8 @@ if(args.config != None):
 elif(args.dev != None):
     # read device related dataidentifiers
     sdev = args.dev.capitalize()
-    addr = make_ecu(args.addr, sdev, "virtdata" + sdev + ".txt")
-    dicEcus[args.addr] = addr
+    ecu = make_ecu(args.addr, sdev, "virtdata" + sdev + ".txt")
+    dicEcus[args.addr] = ecu
 
 
 if(args.all):
@@ -392,6 +395,10 @@ if(not args.old):
         gendids = dict(Open3Edatapoints.dataIdentifiers["dids"])
         lstpops = []
         if(len(dids) > 0):
+            # add dids to gendids if not contained
+            for did,cdc in dids.items():
+                if not(did in gendids):
+                    gendids[did] = cdc
             # overlay device dids over general table 
             for did in gendids:
                 if not(did in dids):
@@ -416,17 +423,15 @@ if(not args.old):
         #dataIdentifiersDev = None
         #didmodule = None
 
+for addr,lsts in dicEcus.items():
+    print(f"{hex(addr)} dids/data: {len(lsts[0])}/{len(lsts[1])}")
 
 # init data by random, regarding dyn range/s if applicable
 for addr,ecu in dicEcus.items():
-    dicdata = ecu[1]
     # init only if no simulation data
-    if (len(dicdata) == 0):
-        for did in dicdata:
-            dicdata[did] = getTxData(ecu, did, init=True)
-
-for addr,lsts in dicEcus.items():
-    print(f"{hex(addr)} dids/data: {len(lsts[0])}/{len(lsts[1])}")
+    if (len(ecu[1]) == 0):
+        for did in ecu[0]:
+            ecu[1][did] = getTxData(ecu, did, init=True)
 
 print("ready to go.")
 
