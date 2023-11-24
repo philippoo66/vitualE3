@@ -1,5 +1,5 @@
 # vitualE3
-virtual E3 device for testing in conjunction with [open3e](https://github.com/abnoname/open3e) or other communication tools.
+virtual E3 device for testing reading and writing DIDs in conjunction with [open3e](https://github.com/abnoname/open3e) or other communication tools.
 
 - place virtualE3.py and virtdyndata.py in the same directory where Open3E is located (multiple files are shared).
 - run Open3E_depictSystem.py with `writesimul=True` adjusted.
