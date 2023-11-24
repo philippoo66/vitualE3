@@ -1,7 +1,7 @@
 # vitualE3
 virtual E3 device for testing in conjunction with open3e
 
-- place virtualE3.py and virtdyndata.py in the same directory where Open3E is located. 
+- place virtualE3.py and virtdyndata.py in the same directory where Open3E is located (multiple files are shared).
 - run Open3E_depictSystem.py with option `writesimul=True`.
 
 Afterwards you have a complete snapshot of your E3 system and you can work with Open3E on this instead of your real device/s. Best to use virtual CAN bus vcan0 instead of can0 with both virtualE3 and Open3Eclient.
