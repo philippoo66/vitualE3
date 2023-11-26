@@ -15,6 +15,9 @@
 """
 
 """
+version 1.0.3:
+    more issues regarding multi ECU fixed
+
 version 1.0.2:
     some bugs fixed
 
@@ -86,10 +89,11 @@ comstate = 0
 
 # current request/device
 currCob = 0
-#currEcu = None 
 
 # dict of ecus
 dicEcus = {}  # addr:[dataIdentifiers,dicSimulData]
+
+dyndata = {}
 
 
 # read simulation data ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,16 +163,19 @@ def startToutTimer(secs:float):
 
 def getTxData(ecu, did:int, init=False) -> bytes:
     dataIdentifiers,dicSimulData = ecu
+    regarddyn = False 
     if(not (did in dicSimulData)):
+        regarddyn = (len(dynData) > 0)
         if(not init): 
             print(f"random: {hex(addr)}, {did}")
-        dicSimulData[did] = bytes([random.randint(32, 126) for _ in range(dataIdentifiers[did].string_len)])  # printable ASCII
+        dicSimulData[did] = bytes([random.randint(0x20, 0x7E) for _ in range(dataIdentifiers[did].string_len)])  # printable ASCII
 
     buffer = dicSimulData[did]
-    if(args.dyn):
+    if(args.dyn or regarddyn):
         if(did in dynData):
             for itm in dynData[did]:
                 dystart, dylen, dytype = itm  # extract informations
+                print("H", dystart, dylen, dytype)
                 if(isinstance(dytype, list)):  
                     dybuff = bytes([random.randint(dytype[0], dytype[1]) for _ in range(dylen)])
                 elif(dytype.upper() == 'F'):  # full range 
@@ -184,7 +191,7 @@ def getTxData(ecu, did:int, init=False) -> bytes:
 
                 # Convert buffer to a bytearray, update the section, and then convert back to bytes
                 buffarr = bytearray(buffer)
-                buffarr[dystart:dystart+dylen] = dybuff
+                buffarr[dystart:dystart+dylen] = bytearray(dybuff)
                 buffer = bytes(buffarr)
 
     return buffer
@@ -332,8 +339,10 @@ def receiveRemainWriteData(ecu, msg):
         comstate = 0
         
 
+# ++++++++++++++++++++++++++
+# main
+# ++++++++++++++++++++++++++
 
-# main #########################################
 # command line arguments +++++++++++++++++++++++++++++++++++++++
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--can", type=str, help="use can device, e.g. can0")
@@ -351,12 +360,10 @@ if(args.can != None):
 if(args.addr == None):
    args.addr = 0x680
 
-if(args.dyn == True):
+
+if(os.path.exists('virtdyndata.py')):
     import virtdyndata
     dynData = virtdyndata.dyndata
-else:
-    args.dyn == False
-    dyndata = {}
 
 
 # make ecu(s) ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -406,11 +413,11 @@ if(not args.old):
                         lstpops.append(did)
                 elif(dids[did] != None):  # apply len from dev spcfc
                     gendids[did] = dids[did]        
-        elif(len(sims) > 0):
-            # overlay simulation data set
-            for did in gendids:
-                if not (did in sims):
-                    lstpops.append(did)
+        # elif(len(sims) > 0):
+        #     # overlay simulation data set
+        #     for did in gendids:
+        #         if not (did in sims):
+        #             lstpops.append(did)
         # remove dids not existing with the device
         for itm in lstpops:
             gendids.pop(itm)
@@ -420,8 +427,7 @@ if(not args.old):
         #for itm in gendids:
         #    print(f"{itm}:{type(gendids[itm]).__name__}")
         # probably useless but to indicate that it's not required anymore
-        #dataIdentifiersDev = None
-        #didmodule = None
+
 
 for addr,lsts in dicEcus.items():
     print(f"{hex(addr)} dids/data: {len(lsts[0])}/{len(lsts[1])}")
