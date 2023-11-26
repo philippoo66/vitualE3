@@ -31,3 +31,6 @@ to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev is p
     -cnfg CONFIG, --config CONFIG
                         json configuration file of Open3E
 
+# Requirements
+
+https://pypi.org/project/python-can/
