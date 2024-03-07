@@ -34,3 +34,20 @@ to run virtualE3 utilizing configuration built by Open3E_depictSystem. (dev is p
 # Requirements
 
 https://pypi.org/project/python-can/
+
+## Virtual CAN Interface
+
+check https://netmodule-linux.readthedocs.io/en/latest/howto/can.html - "Virtual CAN Interface - vcan"
+
+in general 
+
+load vcan module if not loaded:
+
+    modprobe vcan
+
+create vcan0 interface
+
+    ip link add dev vcan0 type vcan
+    ip link set vcan0 mtu 16
+    ip link set up vcan0
+
