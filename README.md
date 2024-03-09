@@ -39,7 +39,7 @@ https://pypi.org/project/python-can/
 
 check https://netmodule-linux.readthedocs.io/en/latest/howto/can.html - "Virtual CAN Interface - vcan"
 
-in general 
+in general (often root privileges required, add a leading 'sudo' in case)
 
 load vcan module if not loaded:
 
@@ -51,4 +51,3 @@ create vcan0 interface
     ip link set vcan0 mtu 16
     ip link set up vcan0
 
-often root privileges required, in case add a leading 'sudo'.
