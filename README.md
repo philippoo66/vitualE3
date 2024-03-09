@@ -51,3 +51,4 @@ create vcan0 interface
     ip link set vcan0 mtu 16
     ip link set up vcan0
 
+often root privileges required, in case add a leading 'sudo'.
