@@ -472,7 +472,7 @@ try:
                         # DID not existing, send Negative Response 'Conditions not correct' 
                         txmsg = can.Message(
                             arbitration_id=msg.arbitration_id + 0x10,
-                            data=[3, 0x7F, 0x22, 0x22, 0x55, 0x55, 0x55, 0x55],
+                            data=[3, 0x7F, msg.data[sididx], 0x22, 0x55, 0x55, 0x55, 0x55],
                             is_extended_id=False
                         )
                         bus.send(txmsg)
